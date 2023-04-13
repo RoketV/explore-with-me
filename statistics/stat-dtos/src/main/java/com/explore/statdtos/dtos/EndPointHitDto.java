@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 
 public record EndPointHitDto(
-        Integer id,
+        Long id,
         @NotNull String app,
         @NotNull String uri,
         @NotNull String ip,
