@@ -1,7 +1,6 @@
 package com.example.statservice.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,7 +12,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@Table(name = "endPointHit", schema = "public")
+@Table(name = "stats", schema = "public")
 public class EndPointHit {
 
     @Id

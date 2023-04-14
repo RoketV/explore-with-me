@@ -14,15 +14,12 @@ public class ViewStats {
     @NotNull
     private String uri;
     @NotNull
-    private String hits;
+    private Long hits;
 
-    public ViewStats(String app, String uri, String hits) {
+    public ViewStats(String app, String uri, Long hits) {
         this.app = app;
         this.uri = uri;
         this.hits = hits;
-    }
-
-    public ViewStats() {
     }
 
     @Override
