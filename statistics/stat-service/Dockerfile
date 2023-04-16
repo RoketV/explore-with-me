@@ -1,5 +1,5 @@
 FROM amazoncorretto:17
-COPY target/*.jar app.jar
+COPY jar/stat-service-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
 
 EXPOSE 9090
