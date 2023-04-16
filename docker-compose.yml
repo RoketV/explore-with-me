@@ -1,8 +1,11 @@
 version: '3.1'
 services:
   stats-server:
-    build: statistics/stat-service
-    image: stat_service_image
+    build:
+      context: statistics/stat-service
+      dockerfile: Dockerfile
+    container_name: stat-server-container
+    image: stat-service-explore
     ports:
       - "9090:9090"
     depends_on:
