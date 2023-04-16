@@ -1,6 +1,7 @@
 version: '3.1'
 services:
   stats-server:
+    build: statistics/stat-service
     image: stat_service_image
     ports:
       - "9090:9090"
@@ -24,6 +25,7 @@ services:
       - /var/lib/postgresql/data/
 
   ewm-service:
+    build: main-service
     image: main-service-explore
     container_name: ewm-service
     ports:
