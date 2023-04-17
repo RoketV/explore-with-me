@@ -25,12 +25,13 @@ public class ViewStats {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ViewStats viewStats)) return false;
-        return Objects.equals(app, viewStats.app) && Objects.equals(uri, viewStats.uri) && Objects.equals(hits, viewStats.hits);
+        if (!(o instanceof ViewStats)) return false;
+        ViewStats viewStats = (ViewStats) o;
+        return Objects.equals(getApp(), viewStats.getApp()) && Objects.equals(getUri(), viewStats.getUri()) && Objects.equals(getHits(), viewStats.getHits());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(app, uri, hits);
+        return Objects.hash(getApp(), getUri(), getHits());
     }
 }

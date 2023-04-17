@@ -41,9 +41,9 @@ public class EndPointHit {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof EndPointHit that)) return false;
-        return getId().equals(that.getId()) && getApp().equals(that.getApp()) && getUri().equals(that.getUri())
-                && getIp().equals(that.getIp()) && Objects.equals(getTimestamp(), that.getTimestamp());
+        if (!(o instanceof EndPointHit)) return false;
+        EndPointHit that = (EndPointHit) o;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getApp(), that.getApp()) && Objects.equals(getUri(), that.getUri()) && Objects.equals(getIp(), that.getIp()) && Objects.equals(getTimestamp(), that.getTimestamp());
     }
 
     @Override

@@ -5,7 +5,7 @@ services:
       context: statistics/stat-service
       dockerfile: Dockerfile
     container_name: stat-server-container
-    image: stat-service-explore
+    image: stat-service-image
     ports:
       - "9090:9090"
     depends_on:
@@ -30,7 +30,7 @@ services:
 
   ewm-service:
     build: main-service
-    image: main-service-explore
+    image: main-service-image
     container_name: ewm-service
     ports:
       - "8080:8080"
