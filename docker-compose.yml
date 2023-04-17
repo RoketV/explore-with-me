@@ -11,7 +11,7 @@ services:
     depends_on:
       - stats-db
     environment:
-       - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/explore
+       - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/stats-db
        - SPRING_DATASOURCE_USERNAME=explore
        - SPRING_DATASOURCE_PASSWORD=explore
 
@@ -20,10 +20,11 @@ services:
     container_name: stats-db
     restart: always
     ports:
-      - "6546:5432"
+      - "6541:5432"
     environment:
-      POSTGRES_PASSWORD: explore
-      POSTGRES_USER: explore
+    - POSTGRES_DB=stats-db
+    - POSTGRES_PASSWORD=explore
+    - POSTGRES_USER=explore
     volumes:
       - /var/lib/postgresql/data/
 
