@@ -1,7 +1,12 @@
 package com.explore.statdtos.dtos;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import lombok.extern.jackson.Jacksonized;
+
 import javax.validation.constraints.NotNull;
 
+@Jacksonized
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class ViewStatsDto {
     @NotNull
     private final String app;

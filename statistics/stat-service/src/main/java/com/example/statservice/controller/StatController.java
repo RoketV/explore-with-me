@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@RestController("/")
 public class StatController {
 
     private final StatService statService;
@@ -18,12 +18,12 @@ public class StatController {
         this.statService = statService;
     }
 
-    @PostMapping("/hit")
+    @PostMapping(value = "hit")
     public ResponseEntity<EndPointHitDto> postHit(@RequestBody EndPointHitDto dto) {
         return new ResponseEntity<>(statService.addEndPointHit(dto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/stats")
+    @GetMapping("stats")
     public ResponseEntity<List<ViewStatsDto>> getViewStats(@RequestParam(required = false) String start,
                                                            @RequestParam(required = false) String end,
                                                            @RequestParam(required = false) List<String> uris,

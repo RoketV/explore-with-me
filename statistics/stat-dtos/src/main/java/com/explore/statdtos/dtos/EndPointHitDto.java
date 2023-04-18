@@ -1,11 +1,13 @@
 package com.explore.statdtos.dtos;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.extern.jackson.Jacksonized;
 
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 
-
+@Jacksonized
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class EndPointHitDto {
     private final Long id;
     @NotBlank(message = "app is empty or null")
@@ -14,10 +16,11 @@ public class EndPointHitDto {
     private final String uri;
     @NotBlank(message = "ip is empty or null")
     private final String ip;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private final LocalDateTime timestamp;
 
-    public EndPointHitDto(Long id, String app, String uri, String ip, LocalDateTime timestamp) {
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private final String timestamp;
+
+    public EndPointHitDto(Long id, String app, String uri, String ip, String timestamp) {
         this.id = id;
         this.app = app;
         this.uri = uri;
@@ -41,7 +44,7 @@ public class EndPointHitDto {
         return ip;
     }
 
-    public LocalDateTime timestamp() {
+    public String timestamp() {
         return timestamp;
     }
 }
