@@ -17,16 +17,16 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class WebClientConfig {
 
-    private final Integer CONNECTION_MILLIS = 5_000;
+    private final Integer connectionMillis = 5_000;
 
     @Bean
     public WebClient webClient() {
         HttpClient httpClient = HttpClient.create()
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, CONNECTION_MILLIS)
-                .responseTimeout(Duration.ofMillis(CONNECTION_MILLIS))
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, connectionMillis)
+                .responseTimeout(Duration.ofMillis(connectionMillis))
                 .doOnConnected(conn ->
-                        conn.addHandlerLast(new ReadTimeoutHandler(CONNECTION_MILLIS, TimeUnit.MILLISECONDS))
-                                .addHandlerLast(new WriteTimeoutHandler(CONNECTION_MILLIS, TimeUnit.MILLISECONDS)));
+                        conn.addHandlerLast(new ReadTimeoutHandler(connectionMillis, TimeUnit.MILLISECONDS))
+                                .addHandlerLast(new WriteTimeoutHandler(connectionMillis, TimeUnit.MILLISECONDS)));
 
         return WebClient.builder()
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
