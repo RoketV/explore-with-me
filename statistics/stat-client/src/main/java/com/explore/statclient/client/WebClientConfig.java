@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class WebClientConfig {
 
-    private final Integer CONNECTION_MILLIS = 5000;
+    private final Integer CONNECTION_MILLIS = 5_000;
 
     @Bean
     public WebClient webClient() {
