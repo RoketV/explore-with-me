@@ -1,6 +1,6 @@
 package com.explore.statdtos.dtos;
 
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 
 public class ViewStatsDto{
         @NotNull
