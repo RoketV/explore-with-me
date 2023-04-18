@@ -6,5 +6,6 @@ import com.explore.statdtos.dtos.ViewStatsDto;
 public interface ViewStatsMapper {
 
     ViewStats fromDto(ViewStatsDto dto);
+
     ViewStatsDto toDto(ViewStats stats);
 }
