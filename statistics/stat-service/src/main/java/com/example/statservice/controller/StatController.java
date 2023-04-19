@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController("/")
 public class StatController {
@@ -26,7 +27,7 @@ public class StatController {
     @GetMapping("stats")
     public ResponseEntity<List<ViewStatsDto>> getViewStats(@RequestParam(required = false) String start,
                                                            @RequestParam(required = false) String end,
-                                                           @RequestParam(required = false) List<String> uris,
+                                                           @RequestParam(required = false) Optional<List<String>> uris,
                                                            @RequestParam(required = false) boolean unique) {
         return ResponseEntity.ok(statService.getViewStats(start, end, uris, unique));
     }

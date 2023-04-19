@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,20 +35,32 @@ public class StatService {
         return hitMapper.toHitDto(statRepository.save(hitMapper.fromDtoToHit(dto)));
     }
 
-    public List<ViewStatsDto> getViewStats(String start, String end, List<String> uris, boolean unique) {
+    public List<ViewStatsDto> getViewStats(String start, String end, Optional<List<String>> uris, boolean unique) {
         LocalDateTime startTime = LocalDateTime.parse(URLDecoder.decode(start, StandardCharsets.UTF_8),
                 DateTimeFormatter.ofPattern(("yyyy-MM-dd HH:mm:ss")));
         LocalDateTime endTime = LocalDateTime.parse(URLDecoder.decode(end, StandardCharsets.UTF_8),
                 DateTimeFormatter.ofPattern(("yyyy-MM-dd HH:mm:ss")));
-        if (unique) {
+        if (unique && uris.isPresent()) {
             log.info("view stats with unique ips collected");
-            return statRepository.getViewStatsByTimeAndUrisUnique(startTime, endTime, uris)
+            return statRepository.getViewStatsByTimeAndUrisUnique(startTime, endTime, uris.get())
                     .stream()
                     .map(viewStatsMapper::toDto)
                     .collect(Collectors.toList());
         }
-        log.info("view stats with collected");
-        return statRepository.getViewStatsByTimeAndUris(startTime, endTime, uris)
+        if (!unique && uris.isPresent()) {
+            log.info("view stats with collected");
+            return statRepository.getViewStatsByTimeAndUris(startTime, endTime, uris.get())
+                    .stream()
+                    .map(viewStatsMapper::toDto)
+                    .collect(Collectors.toList());
+        }
+        if (unique) {
+            return statRepository.getViewStatsByTimeAndUrisUnique(startTime, endTime)
+                    .stream()
+                    .map(viewStatsMapper::toDto)
+                    .collect(Collectors.toList());
+        }
+        return statRepository.getViewStatsByTimeAndUris(startTime, endTime)
                 .stream()
                 .map(viewStatsMapper::toDto)
                 .collect(Collectors.toList());
