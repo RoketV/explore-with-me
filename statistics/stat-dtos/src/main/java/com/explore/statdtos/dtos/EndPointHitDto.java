@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Jacksonized
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class EndPointHitDto {
-    private final Long id;
+    private Long id;
     @NotBlank(message = "app is empty or null")
     private final String app;
     @NotBlank(message = "uri is empty or null")
@@ -22,6 +22,13 @@ public class EndPointHitDto {
 
     public EndPointHitDto(Long id, String app, String uri, String ip, String timestamp) {
         this.id = id;
+        this.app = app;
+        this.uri = uri;
+        this.ip = ip;
+        this.timestamp = timestamp;
+    }
+
+    public EndPointHitDto(String app, String uri, String ip, String timestamp) {
         this.app = app;
         this.uri = uri;
         this.ip = ip;

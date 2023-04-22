@@ -8,7 +8,6 @@ import java.util.Objects;
 @NoArgsConstructor
 @Builder
 @Getter
-@Setter
 public class UserShortDto {
 
     private Long id;

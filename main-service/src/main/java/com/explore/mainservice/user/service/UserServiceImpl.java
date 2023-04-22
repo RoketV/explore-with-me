@@ -6,6 +6,7 @@ import com.explore.mainservice.exceptions.NotFoundException;
 import com.explore.mainservice.user.dto.NewUserRequestDto;
 import com.explore.mainservice.user.dto.UserDto;
 import com.explore.mainservice.user.dto.UserShortDto;
+import com.explore.mainservice.user.jpa.UserPersistService;
 import com.explore.mainservice.user.mapper.UserMapper;
 import com.explore.mainservice.user.model.User;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserPersistService userPersistService;
     private final UserMapper userMapper;
-    private final Pattern emailPattern = Pattern.compile("^.+@.+\\..+$");
 
     @Override
     public List<UserDto> getUsers(List<Long> ids, int from, int size) {
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
         }
 
         return users.stream()
-                .map(el -> userMapper.toUserDto(el)).collect(Collectors.toList());
+                .map(userMapper::toUserDto).collect(Collectors.toList());
     }
 
     @Override
@@ -47,18 +47,11 @@ public class UserServiceImpl implements UserService {
         if (newUserRequestDto.getName() == null) {
             throw new BadRequestException("Bad request body", "User name is empty");
         }
-        var users = userPersistService.findUsersByName(newUserRequestDto.getName());
+        List<User> users = userPersistService.findUsersByName(newUserRequestDto.getName());
         if (!CollectionUtils.isEmpty(users)) {
             throw new ConflictException("Integrity constraint has been violated.", "User already exist ");
         }
-        var user = userMapper.toUser(newUserRequestDto);
-
-        if (!emailPattern.matcher(user.getEmail()).matches()) {
-            throw new ConflictException("Integrity constraint has been violated.",
-                    "could not execute statement; SQL [n/a]; constraint [uq_email]; " +
-                            "nested exception is org.hibernate.exception.ConstraintViolationException: " +
-                            "could not execute statement");
-        }
+        User user = userMapper.toUser(newUserRequestDto);
 
         userPersistService.createUser(user);
 
