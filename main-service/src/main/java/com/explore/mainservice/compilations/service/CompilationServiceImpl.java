@@ -1,5 +1,6 @@
 package com.explore.mainservice.compilations.service;
 
+import com.explore.mainservice.category.service.CategoryService;
 import com.explore.mainservice.compilations.dto.CompilationDto;
 import com.explore.mainservice.compilations.dto.NewCompilationDto;
 import com.explore.mainservice.compilations.dto.UpdateCompilationRequestDto;
@@ -95,7 +96,7 @@ public class CompilationServiceImpl implements CompilationService {
                         () -> new NotFoundException("The required object was not found.",
                                 String.format("Event with id = %s was not found", eventId)))));
 
-        var compResult = compilationPersistService.addCompilation(compilationEntity);
+        Compilation compResult = compilationPersistService.addCompilation(compilationEntity);
 
         List<Event> events = compResult.getEvents()
                 .stream()
@@ -117,7 +118,7 @@ public class CompilationServiceImpl implements CompilationService {
     @Override
     public CompilationDto updateCompilation(Long compId, UpdateCompilationRequestDto updateCompilationDto) {
 
-        var compOpt = compilationPersistService.findCompilationById(compId);
+        Optional<Compilation> compOpt = compilationPersistService.findCompilationById(compId);
 
         if (compOpt.isEmpty()) {
             throw new NotFoundException("The required object was not found.",
