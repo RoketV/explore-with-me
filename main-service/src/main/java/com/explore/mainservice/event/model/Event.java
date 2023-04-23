@@ -1,5 +1,6 @@
 package com.explore.mainservice.event.model;
 
+import com.explore.mainservice.location.model.Location;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;

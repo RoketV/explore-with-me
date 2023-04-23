@@ -1,9 +1,7 @@
 package com.explore.mainservice.compilations.model;
 
 import com.explore.mainservice.event.model.Event;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,6 +10,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
+@Getter
+@Setter
 @Table(name = "compilation_t")
 public class Compilation {
 

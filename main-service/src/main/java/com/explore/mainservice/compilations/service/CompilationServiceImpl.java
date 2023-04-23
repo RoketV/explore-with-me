@@ -2,16 +2,25 @@ package com.explore.mainservice.compilations.service;
 
 import com.explore.mainservice.compilations.dto.CompilationDto;
 import com.explore.mainservice.compilations.dto.NewCompilationDto;
+import com.explore.mainservice.compilations.dto.UpdateCompilationRequestDto;
+import com.explore.mainservice.compilations.jpa.CompilationPersistService;
+import com.explore.mainservice.compilations.mapper.CompilationMapper;
+import com.explore.mainservice.compilations.model.Compilation;
+import com.explore.mainservice.event.dto.EventShortDto;
+import com.explore.mainservice.event.mapper.EventMapper;
+import com.explore.mainservice.event.model.Event;
 import com.explore.mainservice.exceptions.BadRequestException;
 import com.explore.mainservice.exceptions.ConflictException;
 import com.explore.mainservice.exceptions.NotFoundException;
 import com.explore.mainservice.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,34 +37,34 @@ public class CompilationServiceImpl implements CompilationService {
     @Override
     public List<CompilationDto> getCompilation(Boolean pinned, Integer from, Integer size) {
 
-        var compilations = compilationPersistService.findCompilation(pinned, from, size);
+        Page<Compilation> compilations = compilationPersistService.findCompilation(pinned, from, size);
 
         if (compilations.getContent().isEmpty()) {
             return Collections.emptyList();
         }
 
         return compilations.getContent().stream()
-                .map(el -> compilationMapper.toCompilationDto(el))
+                .map(compilationMapper::toCompilationDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public CompilationDto getCompilationId(Long compId) {
 
-        var compilation = compilationPersistService.findCompilationById(compId);
+        Optional<Compilation> compilation = compilationPersistService.findCompilationById(compId);
         if (compilation.isEmpty()) {
             throw new NotFoundException("The required object was not found.",
                     String.format("Compilation with id = %s was not found", compId));
         }
 
-        var events = compilation.get().getEvents()
+        List<EventShortDto> events = compilation.get().getEvents()
                 .stream()
                 .map(event -> eventMapper.toEventShortDto(event,
                         categoryService.getCategoryById(event.getCategoryId()),
                         userService.getUserShortById(event.getInitiatorId()))
                 ).collect(Collectors.toList());
 
-        var compDto = compilationMapper.toCompilationDto(compilation.get());
+        CompilationDto compDto = compilationMapper.toCompilationDto(compilation.get());
 
         compDto.setEvents(events);
 
@@ -69,7 +78,7 @@ public class CompilationServiceImpl implements CompilationService {
             throw new BadRequestException("Bad request body", "Compilation title is empty");
         }
 
-        var comp = compilationPersistService.findCompilationByTitle(newCompilationDto.getTitle());
+        Optional<Compilation> comp = compilationPersistService.findCompilationByTitle(newCompilationDto.getTitle());
 
         if (comp.isPresent() && newCompilationDto.getTitle().equals(comp.get().getTitle())) {
             throw new ConflictException("Integrity constraint has been violated.",
@@ -78,7 +87,7 @@ public class CompilationServiceImpl implements CompilationService {
                             "could not execute statement");
         }
 
-        var compilationEntity = compilationMapper.toCompilation(newCompilationDto);
+        Compilation compilationEntity = compilationMapper.toCompilation(newCompilationDto);
         compilationEntity.setEvents(new ArrayList<>());
 
         newCompilationDto.getEvents().forEach(eventId ->
@@ -88,7 +97,7 @@ public class CompilationServiceImpl implements CompilationService {
 
         var compResult = compilationPersistService.addCompilation(compilationEntity);
 
-        var events = compResult.getEvents()
+        List<Event> events = compResult.getEvents()
                 .stream()
                 .map(event -> eventMapper.toEventShortDto(event,
                         categoryService.getCategoryById(event.getCategoryId()),
@@ -115,9 +124,9 @@ public class CompilationServiceImpl implements CompilationService {
                     String.format("Compilation with id = %s was not found", compId));
         }
 
-        var comp = compOpt.get();
+        Compilation comp = compOpt.get();
 
-        var events = updateCompilationDto.getEvents()
+        List<Event> events = updateCompilationDto.getEvents()
                 .stream()
                 .map(ev -> eventPersistService.findEventById(ev).orElseThrow(
                         () -> new NotFoundException("The required object was not found.",

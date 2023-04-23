@@ -2,6 +2,7 @@ package com.explore.mainservice.compilations.mapper;
 
 import com.explore.mainservice.compilations.dto.CompilationDto;
 import com.explore.mainservice.compilations.dto.NewCompilationDto;
+import com.explore.mainservice.compilations.model.Compilation;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
