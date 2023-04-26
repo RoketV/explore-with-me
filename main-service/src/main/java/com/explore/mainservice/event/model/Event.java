@@ -2,10 +2,9 @@ package com.explore.mainservice.event.model;
 
 import com.explore.mainservice.event.enums.StateEvent;
 import com.explore.mainservice.location.model.Location;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
+import org.mapstruct.Named;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
@@ -17,6 +16,8 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @Entity
+@Getter
+@Setter
 @Table(name = "event_t")
 public class Event {
 

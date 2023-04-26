@@ -1,5 +1,6 @@
 package com.explore.mainservice.event.dto;
 
+import com.explore.mainservice.category.dto.CategoryDto;
 import com.explore.mainservice.user.dto.UserShortDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

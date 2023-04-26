@@ -1,9 +1,7 @@
 package com.explore.mainservice.comment.model;
 
 import com.explore.mainservice.comment.enums.StateComment;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -14,6 +12,8 @@ import java.util.Objects;
 @NoArgsConstructor
 @Builder
 @Entity
+@Setter
+@Getter
 @Table(name = "comment_t")
 public class Comment {
 

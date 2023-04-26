@@ -1,5 +1,6 @@
 package com.explore.mainservice.event.mapper;
 
+import com.explore.mainservice.category.dto.CategoryDto;
 import com.explore.mainservice.event.dto.*;
 import com.explore.mainservice.event.model.Event;
 import com.explore.mainservice.location.dto.LocationDto;
@@ -18,7 +19,7 @@ public interface EventMapper {
     EventFullDto toFullEventDto(Event event, CategoryDto category,
                                 UserShortDto initiator, LocationDto location);
 
-    @Mapping(target = "id", source = "event.id")
+    @Mapping(target = "id", source = "event.eventId")
     EventShortDto toEventShortDto(Event event, CategoryDto category,
                                   UserShortDto initiator);
 

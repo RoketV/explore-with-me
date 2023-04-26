@@ -1,5 +1,6 @@
 package com.explore.mainservice.event.dto;
 
+import com.explore.mainservice.admin.enums.StateAction;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -51,7 +52,7 @@ public class UpdateEventUserRequestDto {
         if (this == o) return true;
         if (!(o instanceof UpdateEventUserRequestDto)) return false;
         UpdateEventUserRequestDto that = (UpdateEventUserRequestDto) o;
-        return Objects.equals(annotation, that.annotation) && Objects.equals(categoryId, that.categoryId) && Objects.equals(description, that.description) && Objects.equals(eventDate, that.eventDate) && Objects.equals(locationId, that.locationId) && Objects.equals(paid, that.paid) && Objects.equals(participantLimit, that.participantLimit) && Objects.equals(requestModeration, that.requestModeration) && Objects.equals(stateAction, that.stateAction) && Objects.equals(title, that.title);
+        return Objects.equals(annotation, that.annotation) && Objects.equals(categoryId, that.categoryId) && Objects.equals(description, that.description) && Objects.equals(eventDate, that.eventDate) && Objects.equals(locationId, that.locationId) && Objects.equals(paid, that.paid) && Objects.equals(participantLimit, that.participantLimit) && Objects.equals(requestModeration, that.requestModeration) && stateAction == that.stateAction && Objects.equals(title, that.title);
     }
 
     @Override

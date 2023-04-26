@@ -1,5 +1,6 @@
 package com.explore.mainservice.event.dto;
 
+import com.explore.mainservice.location.dto.LocationDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
