@@ -1,8 +1,6 @@
 package com.explore.mainservice.location.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -11,6 +9,8 @@ import java.util.Objects;
 @NoArgsConstructor
 @Builder
 @Entity
+@Getter
+@Setter
 @Table(name = "location_t")
 public class Location {
 

@@ -14,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StatisticService {
 
+
     private final StatisticsClient client;
 
     public void addHit(HttpServletRequest request) {

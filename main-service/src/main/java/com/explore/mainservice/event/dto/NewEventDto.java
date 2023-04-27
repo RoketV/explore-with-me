@@ -17,6 +17,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Builder
 @Getter
+@Setter
 public class NewEventDto {
 
     @NotNull

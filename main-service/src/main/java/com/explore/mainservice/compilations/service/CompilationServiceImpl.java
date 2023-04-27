@@ -8,6 +8,7 @@ import com.explore.mainservice.compilations.jpa.CompilationPersistService;
 import com.explore.mainservice.compilations.mapper.CompilationMapper;
 import com.explore.mainservice.compilations.model.Compilation;
 import com.explore.mainservice.event.dto.EventShortDto;
+import com.explore.mainservice.event.jpa.EventPersistService;
 import com.explore.mainservice.event.mapper.EventMapper;
 import com.explore.mainservice.event.model.Event;
 import com.explore.mainservice.exceptions.BadRequestException;
@@ -97,14 +98,7 @@ public class CompilationServiceImpl implements CompilationService {
                                 String.format("Event with id = %s was not found", eventId)))));
 
         Compilation compResult = compilationPersistService.addCompilation(compilationEntity);
-
-        List<Event> events = compResult.getEvents()
-                .stream()
-                .map(event -> eventMapper.toEventShortDto(event,
-                        categoryService.getCategoryById(event.getCategoryId()),
-                        userService.getUserShortById(event.getInitiatorId()))
-                ).collect(Collectors.toList());
-
+        
         return compilationMapper.toCompilationDto(compResult);
     }
 

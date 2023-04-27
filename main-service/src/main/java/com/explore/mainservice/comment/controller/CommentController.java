@@ -1,6 +1,7 @@
 package com.explore.mainservice.comment.controller;
 
 import com.explore.mainservice.comment.dto.CommentDto;
+import com.explore.mainservice.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;

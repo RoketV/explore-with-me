@@ -19,7 +19,7 @@ public interface EventMapper {
     EventFullDto toFullEventDto(Event event, CategoryDto category,
                                 UserShortDto initiator, LocationDto location);
 
-    @Mapping(target = "id", source = "event.eventId")
+    @Mapping(target = "id", source = "event.id")
     EventShortDto toEventShortDto(Event event, CategoryDto category,
                                   UserShortDto initiator);
 

@@ -4,7 +4,6 @@ import com.explore.mainservice.event.enums.StateEvent;
 import com.explore.mainservice.location.model.Location;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
-import org.mapstruct.Named;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
@@ -64,7 +63,7 @@ public class Event {
     @Length(max = 120, min = 3)
     private String title;
 
-    private Integer views;
+    private Long views;
 
     @PrePersist
     public void preInit() {
