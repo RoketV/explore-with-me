@@ -289,7 +289,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public EventShortDto findEventShortById(Long eventId) {
 
-        var eventOpt = eventPersistService.findEventById(eventId);
+        Optional<Event> eventOpt = eventPersistService.findEventById(eventId);
 
         if (eventOpt.isPresent()) {
 

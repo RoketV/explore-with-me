@@ -3,7 +3,6 @@ package com.explore.mainservice.compilations.controller;
 import com.explore.mainservice.compilations.dto.CompilationDto;
 import com.explore.mainservice.compilations.service.CompilationService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

@@ -25,7 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> getCategories(Integer from, Integer size) {
-        var categories = categoryPersistService.findCategories(from, size).getContent();
+        List<Category> categories = categoryPersistService.findCategories(from, size).getContent();
 
         if (categories.isEmpty()) {
             return Collections.emptyList();
@@ -64,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         categoryMapper.toMapCategory(newCategoryDto);
 
-        var category = categoryPersistService.addCategory(categoryMapper.toMapCategory(newCategoryDto));
+        Category category = categoryPersistService.addCategory(categoryMapper.toMapCategory(newCategoryDto));
 
         return categoryMapper.toCategoryDto(category);
     }
@@ -72,7 +72,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteCategory(Long catId) {
 
-        var category = categoryPersistService.findCategoryById(catId);
+        Optional<Category> category = categoryPersistService.findCategoryById(catId);
 
         if (category.isEmpty()) {
             throw new NotFoundException("The required object was not found.",
@@ -94,7 +94,7 @@ public class CategoryServiceImpl implements CategoryService {
             throw new BadRequestException("Bad request body", "Category name is empty");
         }
 
-        var cat = categoryPersistService.findCategoryByName(categoryDto.getName());
+        Category cat = categoryPersistService.findCategoryByName(categoryDto.getName());
 
         if (cat != null && cat.getName().equals(categoryDto.getName())) {
             throw new ConflictException("Integrity constraint has been violated.",

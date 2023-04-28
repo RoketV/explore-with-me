@@ -130,7 +130,7 @@ public class CompilationServiceImpl implements CompilationService {
 
         comp.setEvents(events);
 
-        var compResult = compilationPersistService.updateCompilation(comp);
+        Compilation compResult = compilationPersistService.updateCompilation(comp);
 
         return compilationMapper.toCompilationDto(compResult);
     }

@@ -17,7 +17,6 @@ import org.springframework.util.CollectionUtils;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,7 +30,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getUsers(List<Long> ids, int from, int size) {
 
-        var users = userPersistService.getUsers(ids, from, size).getContent();
+        List<User> users = userPersistService.getUsers(ids, from, size).getContent();
 
         if (users.isEmpty()) {
             return Collections.emptyList();
