@@ -11,14 +11,14 @@ import javax.validation.constraints.NotBlank;
 public class EndPointHitDto {
     private Long id;
     @NotBlank(message = "app is empty or null")
-    private final String app;
+    private String app;
     @NotBlank(message = "uri is empty or null")
-    private final String uri;
+    private String uri;
     @NotBlank(message = "ip is empty or null")
-    private final String ip;
+    private String ip;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private final String timestamp;
+    private String timestamp;
 
     public EndPointHitDto(Long id, String app, String uri, String ip, String timestamp) {
         this.id = id;
@@ -33,6 +33,9 @@ public class EndPointHitDto {
         this.uri = uri;
         this.ip = ip;
         this.timestamp = timestamp;
+    }
+
+    public EndPointHitDto() {
     }
 
     public Long id() {

@@ -98,7 +98,7 @@ public class CompilationServiceImpl implements CompilationService {
                                 String.format("Event with id = %s was not found", eventId)))));
 
         Compilation compResult = compilationPersistService.addCompilation(compilationEntity);
-        
+
         return compilationMapper.toCompilationDto(compResult);
     }
 

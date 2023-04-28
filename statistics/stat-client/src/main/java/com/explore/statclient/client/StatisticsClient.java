@@ -2,6 +2,8 @@ package com.explore.statclient.client;
 
 import com.explore.statdtos.dtos.EndPointHitDto;
 import com.explore.statdtos.dtos.ViewStatsDto;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -19,8 +21,10 @@ public class StatisticsClient {
     }
 
     public EndPointHitDto addHit(EndPointHitDto dto) {
-        return webClient.post()
-                .uri("/hits")
+        return webClient
+                .post()
+                .uri("/hit")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .body(Mono.just(dto), EndPointHitDto.class)
                 .retrieve()
                 .bodyToMono(EndPointHitDto.class)

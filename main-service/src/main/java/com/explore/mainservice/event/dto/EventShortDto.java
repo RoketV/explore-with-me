@@ -17,6 +17,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @Getter
+@Setter
 public class EventShortDto {
 
     private String annotation;
