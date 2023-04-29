@@ -3,6 +3,7 @@ package com.explore.statclient.client;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
@@ -18,7 +19,7 @@ public class WebClientConfig {
     private final Integer connectionMillis = 5_000;
 
     @Bean
-    public WebClient webClient() {
+    public WebClient webClient(@Value("${stats-server.url}") String serverUrl) {
         HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, connectionMillis)
                 .responseTimeout(Duration.ofMillis(connectionMillis))
@@ -27,7 +28,7 @@ public class WebClientConfig {
                                 .addHandlerLast(new WriteTimeoutHandler(connectionMillis, TimeUnit.MILLISECONDS)));
 
         return WebClient.builder()
-                .baseUrl("http://localhost:9090")
+                .baseUrl(serverUrl)
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
     }
