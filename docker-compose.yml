@@ -29,7 +29,9 @@ services:
       - /var/lib/postgresql/data/
 
   ewm-service:
-    build: main-service
+    build:
+      context: main-service
+      dockerfile: Dockerfile
     image: main-service-explore
     container_name: ewm-service
     ports:
