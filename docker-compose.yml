@@ -5,7 +5,7 @@ services:
       context: statistics/stat-service
       dockerfile: Dockerfile
     container_name: stat-server-container
-    image: stat-service-image
+    image: stat-image-explore
     ports:
       - "9090:9090"
     depends_on:
@@ -30,7 +30,7 @@ services:
 
   ewm-service:
     build: main-service
-    image: main-service-image
+    image: main-service-explore
     container_name: ewm-service
     ports:
       - "8080:8080"
@@ -38,9 +38,9 @@ services:
       - ewm-db
       - stats-server
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/explore-with-me-main
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=root
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/explore
+      - POSTGRES_PASSWORD=explore
+      - POSTGRES_DB=explore
       - STATS_SERVICE_URL=http://stats-server:9090
       - JAVA_OPTS=-Djdk.httpclient.WebClient.log=errors,requests
 
