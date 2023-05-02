@@ -1,14 +1,18 @@
 package com.explore.mainservice.event.repository.specifications;
 
+import com.explore.mainservice.category.jpa.CategoryPersistService;
+import com.explore.mainservice.category.jpa.CategoryPersistServiceImpl;
 import com.explore.mainservice.category.model.Category;
-import com.explore.mainservice.category.repository.CategoryRepository;
 import com.explore.mainservice.event.enums.StateEvent;
 import com.explore.mainservice.event.model.Event;
 import com.explore.mainservice.event.model.Event_;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.PostConstruct;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -19,10 +23,19 @@ import java.util.List;
 import static com.explore.mainservice.event.repository.specifications.SpecificationUtils.*;
 import static com.explore.mainservice.event.util.DateFormatConstant.DATE_FORMAT;
 
+@Component
+@RequiredArgsConstructor
 public class EventSpecification {
 
-    private static CategoryRepository categoryRepository;
-    private static final List<Category> categoryList = categoryRepository.findAll();
+    private static CategoryPersistService categoryPersistService;
+
+    private final CategoryPersistServiceImpl persistService;
+
+    @PostConstruct
+    public void init() {
+        categoryPersistService = persistService;
+    }
+
 
     public static Specification<Event> requestSpec(List<Long> users, List<StateEvent> states, List<Long> categories,
                                                    String rangeStart, String rangeEnd) {
@@ -36,6 +49,7 @@ public class EventSpecification {
         }
 
         if (!CollectionUtils.isEmpty(categories)) {
+            List<Category> categoryList = categoryPersistService.findAll();
             specifications.add(in(Event_.category, categoryList));
         }
 
@@ -58,6 +72,7 @@ public class EventSpecification {
                                                    StateEvent state) {
         List<Specification<Event>> specifications = new ArrayList<>();
         if (!CollectionUtils.isEmpty(categories)) {
+            List<Category> categoryList = categoryPersistService.findAll();
             specifications.add(in(Event_.category, categoryList));
         }
         if (rangeStart != null) {
