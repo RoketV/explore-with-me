@@ -24,7 +24,7 @@ public class Category {
     @NotNull
     private String name;
 
-    @OneToMany(mappedBy = "categoryId")
+    @OneToMany(mappedBy = "category")
     private List<Event> events;
 
     @Override

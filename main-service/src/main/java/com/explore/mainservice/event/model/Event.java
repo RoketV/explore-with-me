@@ -27,7 +27,7 @@ public class Event {
 
     @JoinColumn(name = "category_id")
     @ManyToOne
-    private Category categoryId;
+    private Category category;
 
     private Integer confirmedRequests;
 
@@ -78,7 +78,7 @@ public class Event {
         if (!(o instanceof Event)) return false;
         Event event = (Event) o;
         return Objects.equals(annotation, event.annotation)
-                && Objects.equals(categoryId, event.categoryId)
+                && Objects.equals(category, event.category)
                 && Objects.equals(confirmedRequests, event.confirmedRequests)
                 && Objects.equals(createdOn, event.createdOn)
                 && Objects.equals(description, event.description)
@@ -96,6 +96,6 @@ public class Event {
 
     @Override
     public int hashCode() {
-        return Objects.hash(annotation, categoryId, confirmedRequests, createdOn, description, eventDate, id, initiatorId, location, paid, participantLimit, publishedOn, requestModeration, state, title, views);
+        return Objects.hash(annotation, category, confirmedRequests, createdOn, description, eventDate, id, initiatorId, location, paid, participantLimit, publishedOn, requestModeration, state, title, views);
     }
 }

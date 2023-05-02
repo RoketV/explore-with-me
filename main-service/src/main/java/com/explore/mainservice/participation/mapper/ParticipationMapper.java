@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 public interface ParticipationMapper {
 
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "event", source = "eventId")
-    @Mapping(target = "requester", source = "requesterId")
+    @Mapping(target = "event", source = "event.id")
+    @Mapping(target = "requester", source = "requesterId.id")
     ParticipationRequestDto toParticipationDto(ParticipationRequest entity);
 }

@@ -52,7 +52,7 @@ public class EventServiceImpl implements EventService {
 
         return events.stream()
                 .map(event -> {
-                    CategoryDto category = categoryService.getCategoryById(event.getCategoryId());
+                    CategoryDto category = categoryService.getCategoryById(event.getCategory().getId());
                     UserShortDto user = userService.getUserShortById(event.getInitiatorId());
                     return eventMapper.toEventShortDto(event, category, user);
                 }).collect(Collectors.toList());
@@ -77,7 +77,7 @@ public class EventServiceImpl implements EventService {
         event.setState(StateEvent.PENDING);
         event = eventPersistService.createEvent(event);
 
-        CategoryDto category = categoryService.getCategoryById(event.getCategoryId());
+        CategoryDto category = categoryService.getCategoryById(event.getCategory().getId());
         UserShortDto user = userService.getUserShortById(event.getInitiatorId());
 
         return eventMapper.toFullEventDto(event, category, user, location);
@@ -94,7 +94,7 @@ public class EventServiceImpl implements EventService {
                     String.format("Event with id = %s was not found", eventId));
         }
 
-        CategoryDto category = categoryService.getCategoryById(event.getCategoryId());
+        CategoryDto category = categoryService.getCategoryById(event.getCategory().getId());
         UserShortDto user = userService.getUserShortById(event.getInitiatorId());
         LocationDto location = locationService.getLocationById(event.getLocation().getId());
 
@@ -128,7 +128,7 @@ public class EventServiceImpl implements EventService {
         event.setState(getStateEvent(event, updateEventDto.getStateAction()));
         event.setInitiatorId(userId);
 
-        CategoryDto category = categoryService.getCategoryById(event.getCategoryId());
+        CategoryDto category = categoryService.getCategoryById(event.getCategory().getId());
         UserShortDto user = userService.getUserShortById(event.getInitiatorId());
         LocationDto location = locationService.getLocationById(event.getLocation().getId());
 
@@ -148,7 +148,7 @@ public class EventServiceImpl implements EventService {
 
         return events.stream()
                 .map(event -> {
-                    CategoryDto category = categoryService.getCategoryById(event.getCategoryId());
+                    CategoryDto category = categoryService.getCategoryById(event.getCategory().getId());
                     UserShortDto user = userService.getUserShortById(event.getInitiatorId());
                     LocationDto location = locationService.getLocationById(event.getLocation().getId());
                     return eventMapper.toFullEventDto(event, category, user, location);
@@ -185,7 +185,7 @@ public class EventServiceImpl implements EventService {
             eventMapper.mergeToEventAdmin(updateEventDto, event);
             event.setState(StateEvent.PUBLISHED);
 
-            CategoryDto  category = categoryService.getCategoryById(event.getCategoryId());
+            CategoryDto  category = categoryService.getCategoryById(event.getCategory().getId());
             UserShortDto user = userService.getUserShortById(event.getInitiatorId());
             LocationDto  location = locationService.getLocationById(event.getLocation().getId());
 
@@ -200,7 +200,7 @@ public class EventServiceImpl implements EventService {
             eventMapper.mergeToEventAdmin(updateEventDto, event);
             event.setState(StateEvent.CANCELED);
 
-            CategoryDto  category = categoryService.getCategoryById(event.getCategoryId());
+            CategoryDto  category = categoryService.getCategoryById(event.getCategory().getId());
             UserShortDto user = userService.getUserShortById(event.getInitiatorId());
             LocationDto  location = locationService.getLocationById(event.getLocation().getId());
 
@@ -228,7 +228,7 @@ public class EventServiceImpl implements EventService {
 
         return eventsPublic.stream()
                 .map(event -> {
-                    CategoryDto category = categoryService.getCategoryById(event.getCategoryId());
+                    CategoryDto category = categoryService.getCategoryById(event.getCategory().getId());
                     UserShortDto user = userService.getUserShortById(event.getInitiatorId());
 
                     List<ViewStatsDto> stat =
@@ -275,7 +275,7 @@ public class EventServiceImpl implements EventService {
 
             Event event = eventOpt.get();
 
-            CategoryDto  category = categoryService.getCategoryById(event.getCategoryId());
+            CategoryDto  category = categoryService.getCategoryById(event.getCategory().getId());
             UserShortDto user = userService.getUserShortById(event.getInitiatorId());
             LocationDto  location = locationService.getLocationById(event.getLocation().getId());
 
@@ -294,7 +294,7 @@ public class EventServiceImpl implements EventService {
         if (eventOpt.isPresent()) {
 
             Event event = eventOpt.get();
-            CategoryDto category = categoryService.getCategoryById(event.getCategoryId());
+            CategoryDto category = categoryService.getCategoryById(event.getCategory().getId());
             UserShortDto user = userService.getUserShortById(event.getInitiatorId());
 
             return eventMapper.toEventShortDto(event, category, user);

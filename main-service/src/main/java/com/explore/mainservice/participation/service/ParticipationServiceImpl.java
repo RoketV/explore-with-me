@@ -2,6 +2,8 @@ package com.explore.mainservice.participation.service;
 
 import com.explore.mainservice.event.dto.EventFullDto;
 import com.explore.mainservice.event.enums.StateEvent;
+import com.explore.mainservice.event.jpa.EventPersistService;
+import com.explore.mainservice.event.model.Event;
 import com.explore.mainservice.event.service.EventService;
 import com.explore.mainservice.exceptions.BadRequestException;
 import com.explore.mainservice.exceptions.ConflictException;
@@ -13,6 +15,8 @@ import com.explore.mainservice.participation.enums.ParticipationStatus;
 import com.explore.mainservice.participation.jpa.ParticipationPersistService;
 import com.explore.mainservice.participation.mapper.ParticipationMapper;
 import com.explore.mainservice.participation.model.ParticipationRequest;
+import com.explore.mainservice.user.jpa.UserPersistService;
+import com.explore.mainservice.user.model.User;
 import com.explore.mainservice.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,6 +37,10 @@ public class ParticipationServiceImpl implements ParticipationService {
     private final ParticipationMapper participationMapper;
     private final EventService eventService;
     private final UserService userService;
+
+    private final UserPersistService userPersistService;
+
+    private final EventPersistService eventPersistService;
 
     @Override
     public List<ParticipationRequestDto> getEventParticipantsByEventId(Long userId, Long eventId) {
@@ -110,38 +118,47 @@ public class ParticipationServiceImpl implements ParticipationService {
                 participationPersistService.findParticipationByRequesterIdAndEventId(userId, eventId);
 
         if (participation != null &&
-                participation.getRequesterId().equals(userId)
-                && participation.getEventId().equals(eventId)) {
+                participation.getRequesterId().getId().equals(userId)
+                && participation.getEvent().getId().equals(eventId)) {
             throw new ConflictException("Integrity constraint has been violated.",
                     "could not execute statement; SQL [n/a]; constraint [uq_request]; " +
                             "nested exception is org.hibernate.exception.ConstraintViolationException: " +
                             "could not execute statement");
         }
 
-        EventFullDto event = eventService.findEventById(eventId);
+        EventFullDto eventDto = eventService.findEventById(eventId);
 
 
-        if (event.getInitiator().getId().equals(userId) || !StateEvent.PUBLISHED.equals(event.getState())) {
+        if (eventDto.getInitiator().getId().equals(userId) || !StateEvent.PUBLISHED.equals(eventDto.getState())) {
             throw new ConflictException("Integrity constraint has been violated.",
                     "could not execute statement; SQL [n/a]; constraint [uq_request]; " +
                             "nested exception is org.hibernate.exception.ConstraintViolationException: " +
                             "could not execute statement");
         }
 
-        if (event.getConfirmedRequests() != null &&
-                Objects.equals(event.getConfirmedRequests(), event.getParticipantLimit())) {
+        if (eventDto.getConfirmedRequests() != null &&
+                Objects.equals(eventDto.getConfirmedRequests(), eventDto.getParticipantLimit())) {
             throw new ConflictException("For the requested operation the conditions are not met.",
                     "The participant limit has been reached");
         }
 
         ParticipationRequest newParticipation = new ParticipationRequest();
 
-        newParticipation.setRequesterId(userId);
-        newParticipation.setEventId(eventId);
+        User user = userPersistService.findUserById(userId)
+                .orElseThrow(
+                        () -> new NotFoundException(String.format("there is no user with id %s", userId),
+                                "no user with this id"));
+        Event event = eventPersistService.findEventById(eventId)
+                .orElseThrow(
+                        () -> new NotFoundException(String.format("there is no event with id %s", userId),
+                                "no user with this id"));
 
-        if (event.getRequestModeration() != null && !event.getRequestModeration()) {
+        newParticipation.setRequesterId(user);
+        newParticipation.setEvent(event);
+
+        if (eventDto.getRequestModeration() != null && !eventDto.getRequestModeration()) {
             newParticipation.setStatus(ParticipationStatus.CONFIRMED);
-            eventService.increment(event.getId());
+            eventService.increment(eventDto.getId());
         } else {
             newParticipation.setStatus(ParticipationStatus.PENDING);
         }
@@ -168,7 +185,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         request = participationPersistService.save(request);
 
         if (REJECTED.equals(request.getStatus())) {
-            eventService.decrement(request.getEventId());
+            eventService.decrement(request.getEvent().getId());
         }
 
         return participationMapper.toParticipationDto(request);

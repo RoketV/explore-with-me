@@ -28,7 +28,7 @@ public class ParticipationRequest {
 
     @JoinColumn(name = "event_id")
     @ManyToOne
-    private Event eventId;
+    private Event event;
 
     @Enumerated(EnumType.STRING)
     private ParticipationStatus status;
@@ -45,11 +45,11 @@ public class ParticipationRequest {
         if (this == o) return true;
         if (!(o instanceof ParticipationRequest)) return false;
         ParticipationRequest that = (ParticipationRequest) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getRequesterId(), that.getRequesterId()) && Objects.equals(getEventId(), that.getEventId()) && getStatus() == that.getStatus() && Objects.equals(getCreated(), that.getCreated());
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getRequesterId(), that.getRequesterId()) && Objects.equals(getEvent(), that.getEvent()) && getStatus() == that.getStatus() && Objects.equals(getCreated(), that.getCreated());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getRequesterId(), getEventId(), getStatus(), getCreated());
+        return Objects.hash(getId(), getRequesterId(), getEvent(), getStatus(), getCreated());
     }
 }

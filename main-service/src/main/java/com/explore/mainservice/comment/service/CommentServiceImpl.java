@@ -74,7 +74,7 @@ public class CommentServiceImpl implements CommentService {
         comment = commentPersistService.addComment(comment);
 
         UserShortDto user = userService.getUserShortById(event.getInitiatorId());
-        CategoryDto category = categoryService.getCategoryById(event.getCategoryId());
+        CategoryDto category = categoryService.getCategoryById(event.getCategory().getId());
         EventShortDto eventResult = eventMapper.toEventShortDto(event, category, user);
 
         return commentMapper.toCommentDto(comment, user, eventResult);
