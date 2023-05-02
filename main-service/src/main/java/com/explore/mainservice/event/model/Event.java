@@ -1,5 +1,6 @@
 package com.explore.mainservice.event.model;
 
+import com.explore.mainservice.category.model.Category;
 import com.explore.mainservice.event.enums.StateEvent;
 import com.explore.mainservice.location.model.Location;
 import lombok.*;
@@ -25,7 +26,8 @@ public class Event {
     private String annotation;
 
     @JoinColumn(name = "category_id")
-    private Long categoryId;
+    @ManyToOne
+    private Category categoryId;
 
     private Integer confirmedRequests;
 

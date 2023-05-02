@@ -1,5 +1,6 @@
 package com.explore.mainservice.participation.jpa;
 
+import com.explore.mainservice.exceptions.NotFoundException;
 import com.explore.mainservice.participation.model.ParticipationRequest;
 import com.explore.mainservice.participation.repository.ParticipationRepository;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,8 @@ public class ParticipationPersistServiceImpl implements ParticipationPersistServ
 
     @Override
     public ParticipationRequest findParticipationByRequesterIdAndEventId(Long requesterId, Long eventId) {
-        return participationRepository.findParticipationByRequesterIdAndEventId(requesterId, eventId);
+        return participationRepository.findParticipationByRequesterIdAndEventId(requesterId, eventId)
+                .orElseThrow(() -> new NotFoundException("Participation Request not found",
+                        "check requester id or event id"));
     }
 }

@@ -2,6 +2,7 @@ package com.explore.mainservice.category.jpa;
 
 import com.explore.mainservice.category.model.Category;
 import com.explore.mainservice.category.repository.CategoryRepository;
+import com.explore.mainservice.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,7 +27,9 @@ public class CategoryPersistServiceImpl implements CategoryPersistService {
     }
 
     public Category findCategoryByName(String name) {
-        return categoryRepository.findCategoryByName(name);
+        return categoryRepository.findCategoryByName(name).orElseThrow(
+                () -> new NotFoundException(String.format("category with name %s" +
+                        "not found", name), "not existing name"));
     }
 
     @Override

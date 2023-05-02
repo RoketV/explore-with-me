@@ -5,6 +5,7 @@ services:
       context: statistics/stat-service
       dockerfile: Dockerfile
     container_name: stat-server-container
+    restart: on-failure
     image: stat-image-explore
     ports:
       - "9090:9090"
@@ -18,7 +19,7 @@ services:
   stats-db:
     image: postgres:14-alpine
     container_name: stats-db
-    restart: always
+    restart: on-failure
     ports:
       - "6541:5432"
     environment:
@@ -34,6 +35,7 @@ services:
       dockerfile: Dockerfile
     image: main-service-explore
     container_name: ewm-service
+    restart: on-failure
     ports:
       - "8080:8080"
     depends_on:
@@ -47,6 +49,7 @@ services:
   ewm-db:
       image: postgres:14-alpine
       container_name: ewm-db
+      restart: on-failure
       ports:
         - "6542:5432"
       volumes:

@@ -1,6 +1,8 @@
 package com.explore.mainservice.participation.model;
 
+import com.explore.mainservice.event.model.Event;
 import com.explore.mainservice.participation.enums.ParticipationStatus;
+import com.explore.mainservice.user.model.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,9 +22,13 @@ public class ParticipationRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long requesterId;
+    @JoinColumn(name = "requester_Id")
+    @ManyToOne
+    private User requesterId;
 
-    private Long eventId;
+    @JoinColumn(name = "event_id")
+    @ManyToOne
+    private Event eventId;
 
     @Enumerated(EnumType.STRING)
     private ParticipationStatus status;
