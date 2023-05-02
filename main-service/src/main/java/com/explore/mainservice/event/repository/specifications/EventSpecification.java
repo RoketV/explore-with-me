@@ -1,5 +1,7 @@
 package com.explore.mainservice.event.repository.specifications;
 
+import com.explore.mainservice.category.model.Category;
+import com.explore.mainservice.category.repository.CategoryRepository;
 import com.explore.mainservice.event.enums.StateEvent;
 import com.explore.mainservice.event.model.Event;
 import com.explore.mainservice.event.model.Event_;
@@ -19,6 +21,9 @@ import static com.explore.mainservice.event.util.DateFormatConstant.DATE_FORMAT;
 
 public class EventSpecification {
 
+    private static CategoryRepository categoryRepository;
+    private static final List<Category> categoryList = categoryRepository.findAll();
+
     public static Specification<Event> requestSpec(List<Long> users, List<StateEvent> states, List<Long> categories,
                                                    String rangeStart, String rangeEnd) {
         List<Specification<Event>> specifications = new ArrayList<>();
@@ -31,7 +36,7 @@ public class EventSpecification {
         }
 
         if (!CollectionUtils.isEmpty(categories)) {
-            specifications.add(in(Event_.categoryId, categories));
+            specifications.add(in(Event_.category, categoryList));
         }
 
         if (rangeStart != null) {
@@ -53,7 +58,7 @@ public class EventSpecification {
                                                    StateEvent state) {
         List<Specification<Event>> specifications = new ArrayList<>();
         if (!CollectionUtils.isEmpty(categories)) {
-            specifications.add(in(Event_.categoryId, categories));
+            specifications.add(in(Event_.category, categoryList));
         }
         if (rangeStart != null) {
             LocalDateTime start = LocalDateTime.parse(URLDecoder.decode(rangeStart, StandardCharsets.UTF_8),
