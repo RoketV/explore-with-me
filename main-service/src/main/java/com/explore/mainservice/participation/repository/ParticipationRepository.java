@@ -15,6 +15,6 @@ public interface ParticipationRepository extends JpaRepository<ParticipationRequ
 
     Optional<ParticipationRequest> findParticipationRequestByRequesterId(Long requesterId);
 
-    @Query("from ParticipationRequest pr where pr.requester.id=:requesterId and pr.event.id=:eventId" )
+    @Query("from ParticipationRequest pr where pr.requester.id=:requesterId and pr.event.id=:eventId")
     Optional<ParticipationRequest> findParticipationByRequesterIdAndEventId(Long requesterId, Long eventId);
 }

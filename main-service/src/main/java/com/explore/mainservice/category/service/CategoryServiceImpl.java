@@ -90,8 +90,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category categoryCheck;
         try {
             categoryCheck = categoryPersistService.findCategoryByName(categoryDto.getName());
-        }
-        catch (NotFoundException e) {
+        } catch (NotFoundException e) {
             categoryCheck = null;
         }
 
