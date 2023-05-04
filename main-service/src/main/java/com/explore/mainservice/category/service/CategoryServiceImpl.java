@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,14 +36,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     public CategoryDto getCategoryById(Long catId) {
 
-        Optional<Category> category = categoryPersistService.findCategoryById(catId);
+        Category category = categoryPersistService.findCategoryById(catId);
 
-        if (category.isEmpty()) {
-            throw new NotFoundException("The required object was not found.",
-                    String.format("Category with %s was not found", catId));
-        }
-
-        return categoryMapper.toCategoryDto(category.get());
+        return categoryMapper.toCategoryDto(category);
     }
 
     @Override
@@ -53,9 +47,14 @@ public class CategoryServiceImpl implements CategoryService {
         if (newCategoryDto.getName() == null) {
             throw new BadRequestException("Bad request body", "Category name is empty");
         }
-        Category cat = categoryPersistService.findCategoryByName(newCategoryDto.getName());
+        Category categoryCheck;
+        try {
+            categoryCheck = categoryPersistService.findCategoryByName(newCategoryDto.getName());
+        } catch (NotFoundException e) {
+            categoryCheck = null;
+        }
 
-        if (cat != null && cat.getName().equals(newCategoryDto.getName())) {
+        if (categoryCheck != null && categoryCheck.getName().equals(newCategoryDto.getName())) {
             throw new ConflictException("Integrity constraint has been violated.",
                     "could not execute statement; SQL [n/a]; constraint [uq_category_name]; " +
                             "nested exception is org.hibernate.exception.ConstraintViolationException: " +
@@ -72,14 +71,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteCategory(Long catId) {
 
-        Optional<Category> category = categoryPersistService.findCategoryById(catId);
+        Category category = categoryPersistService.findCategoryById(catId);
 
-        if (category.isEmpty()) {
-            throw new NotFoundException("The required object was not found.",
-                    String.format("Category with %s was not found", catId));
-        }
-
-        if (category.get().getEvents() != null && category.get().getEvents().size() > 0) {
+        if (category.getEvents() != null && category.getEvents().size() > 0) {
             throw new ConflictException("For the requested operation the conditions are not met.",
                     "The category is not empty");
         }
@@ -93,24 +87,23 @@ public class CategoryServiceImpl implements CategoryService {
         if (categoryDto.getName() == null) {
             throw new BadRequestException("Bad request body", "Category name is empty");
         }
+        Category categoryCheck;
+        try {
+            categoryCheck = categoryPersistService.findCategoryByName(categoryDto.getName());
+        }
+        catch (NotFoundException e) {
+            categoryCheck = null;
+        }
 
-        Category cat = categoryPersistService.findCategoryByName(categoryDto.getName());
-
-        if (cat != null && cat.getName().equals(categoryDto.getName())) {
+        if (categoryCheck != null && categoryCheck.getName().equals(categoryDto.getName())) {
             throw new ConflictException("Integrity constraint has been violated.",
                     "could not execute statement; SQL [n/a]; constraint [uq_category_name]; " +
                             "nested exception is org.hibernate.exception.ConstraintViolationException: " +
                             "could not execute statement");
         }
 
-        Optional<Category> categoryOpt = categoryPersistService.findCategoryById(catId);
+        Category category = categoryPersistService.findCategoryById(catId);
 
-        if (categoryOpt.isEmpty()) {
-            throw new NotFoundException("The required object was not found.",
-                    String.format("Category with %s was not found", catId));
-        }
-
-        Category category = categoryOpt.get();
 
         category.setName(categoryDto.getName());
 

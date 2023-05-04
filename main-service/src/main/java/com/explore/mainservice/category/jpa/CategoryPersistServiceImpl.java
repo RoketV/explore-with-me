@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,14 +21,16 @@ public class CategoryPersistServiceImpl implements CategoryPersistService {
         return categoryRepository.findAll(PageRequest.of(from, size));
     }
 
-    public Optional<Category> findCategoryById(Long catId) {
-        return categoryRepository.findById(catId);
+    public Category findCategoryById(Long catId) {
+        return categoryRepository.findById(catId)
+                .orElseThrow(() -> new NotFoundException(String.format("not found category " +
+                        " with id %d", catId), "try to put this category first"));
     }
 
     public Category findCategoryByName(String name) {
-        return categoryRepository.findCategoryByName(name).orElseThrow(
-                () -> new NotFoundException(String.format("category with name %s" +
-                        "not found", name), "not existing name"));
+        return categoryRepository.findCategoryByName(name)
+                .orElseThrow(() -> new NotFoundException(String.format("not found category " +
+                        " with name %s", name), "try to put this category first"));
     }
 
     @Override
@@ -48,6 +49,5 @@ public class CategoryPersistServiceImpl implements CategoryPersistService {
     public void deleteCategory(Long catId) {
         categoryRepository.deleteById(catId);
     }
-
 }
 

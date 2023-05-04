@@ -63,9 +63,11 @@ public class ParticipationServiceImpl implements ParticipationService {
                     "The participant limit has been reached");
         }
 
-        var result = new EventRequestStatusUpdateResultDto();
+        EventRequestStatusUpdateResultDto result = new EventRequestStatusUpdateResultDto();
 
-        requestStatusUpdateRequestDto.getRequestIds().forEach(requestId -> {
+       List<Long> requestIds = requestStatusUpdateRequestDto.getRequestIds();
+        for (Long requestId : requestIds) {
+
             Optional<ParticipationRequest> requestOpt = participationPersistService.getEventParticipantsById(requestId);
 
             if (requestOpt.isPresent()) {
@@ -90,7 +92,7 @@ public class ParticipationServiceImpl implements ParticipationService {
                     result.getConfirmedRequests().add(participationMapper.toParticipationDto(request));
                 }
             }
-        });
+        }
         return result;
     }
 
@@ -114,11 +116,14 @@ public class ParticipationServiceImpl implements ParticipationService {
     @Override
     public ParticipationRequestDto addParticipationRequest(Long userId, Long eventId) {
 
-        ParticipationRequest participation =
-                participationPersistService.findParticipationByRequesterIdAndEventId(userId, eventId);
-
+        ParticipationRequest participation;
+        try {
+            participation = participationPersistService.findParticipationByRequesterIdAndEventId(userId, eventId);
+        } catch (NotFoundException e) {
+            participation = null;
+        }
         if (participation != null &&
-                participation.getRequesterId().getId().equals(userId)
+                participation.getRequester().getId().equals(userId)
                 && participation.getEvent().getId().equals(eventId)) {
             throw new ConflictException("Integrity constraint has been violated.",
                     "could not execute statement; SQL [n/a]; constraint [uq_request]; " +
@@ -153,7 +158,7 @@ public class ParticipationServiceImpl implements ParticipationService {
                         () -> new NotFoundException(String.format("there is no event with id %s", userId),
                                 "no user with this id"));
 
-        newParticipation.setRequesterId(user);
+        newParticipation.setRequester(user);
         newParticipation.setEvent(event);
 
         if (eventDto.getRequestModeration() != null && !eventDto.getRequestModeration()) {
