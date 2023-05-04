@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,9 +49,5 @@ public class CategoryPersistServiceImpl implements CategoryPersistService {
         categoryRepository.deleteById(catId);
     }
 
-    @Override
-    public List<Category> findAll() {
-        return categoryRepository.findAll();
-    }
 }
 

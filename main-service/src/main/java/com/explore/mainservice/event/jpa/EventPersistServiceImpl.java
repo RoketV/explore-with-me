@@ -1,5 +1,7 @@
 package com.explore.mainservice.event.jpa;
 
+import com.explore.mainservice.category.model.Category;
+import com.explore.mainservice.category.repository.CategoryRepository;
 import com.explore.mainservice.event.enums.SortState;
 import com.explore.mainservice.event.enums.StateEvent;
 import com.explore.mainservice.event.model.Event;
@@ -21,6 +23,7 @@ import java.util.Optional;
 public class EventPersistServiceImpl implements EventPersistService {
 
     private final EventRepository eventRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     @Transactional
@@ -59,7 +62,8 @@ public class EventPersistServiceImpl implements EventPersistService {
     public Page<Event> getFullEvents(List<Long> users, List<StateEvent> states, List<Long> categories,
                                      String rangeStart, String rangeEnd, int from, int size) {
 
-        return eventRepository.findAll(EventSpecification.requestSpec(users, states, categories, rangeStart, rangeEnd),
+        List<Category> categoryList = categoryRepository.findAllByIdIn(categories);
+        return eventRepository.findAll(EventSpecification.requestSpec(users, states, categoryList, rangeStart, rangeEnd),
                 PageRequest.of(from, size));
     }
 
@@ -68,7 +72,7 @@ public class EventPersistServiceImpl implements EventPersistService {
                                        String rangeStart, String rangeEnd, Boolean onlyAvailable,
                                        String sort, int from, int size) {
 
-        var page = PageRequest.of(from, size);
+        PageRequest page = PageRequest.of(from, size);
 
         if (sort != null && !sort.isEmpty()) {
             var sortD = Sort.by(SortState.EVENT_DATE.getField().equals(sort) ?
@@ -76,7 +80,8 @@ public class EventPersistServiceImpl implements EventPersistService {
             page.withSort(sortD);
         }
 
-        return eventRepository.findAll(EventSpecification.requestSpec(text, categories, paid, rangeStart, rangeEnd,
+        List<Category> categoryList = categoryRepository.findAllByIdIn(categories);
+        return eventRepository.findAll(EventSpecification.requestSpec(text, categoryList, paid, rangeStart, rangeEnd,
                 onlyAvailable, StateEvent.PUBLISHED), page);
     }
 }
