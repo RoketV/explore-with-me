@@ -1,2 +1,1 @@
-# java-explore-with-me
-Template repository for ExploreWithMe project.
+pull-request for feature: https://github.com/RoketV/explore-with-me/pull/3
