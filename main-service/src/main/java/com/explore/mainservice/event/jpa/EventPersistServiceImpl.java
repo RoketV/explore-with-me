@@ -1,0 +1,88 @@
+package com.explore.mainservice.event.jpa;
+
+import com.explore.mainservice.category.model.Category;
+import com.explore.mainservice.category.repository.CategoryRepository;
+import com.explore.mainservice.event.enums.SortState;
+import com.explore.mainservice.event.enums.StateEvent;
+import com.explore.mainservice.event.model.Event;
+import com.explore.mainservice.event.repository.EventRepository;
+import com.explore.mainservice.event.repository.specifications.EventSpecification;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class EventPersistServiceImpl implements EventPersistService {
+
+    private final EventRepository eventRepository;
+    private final CategoryRepository categoryRepository;
+
+    @Override
+    @Transactional
+    public Event createEvent(Event event) {
+        return eventRepository.save(event);
+    }
+
+    @Override
+    public Page<Event> findUserEvents(Long userId, Integer from, Integer size) {
+        return eventRepository.findAllByInitiatorId(userId, PageRequest.of(from, size));
+    }
+
+    @Override
+    public Event findUserEventById(Long userId, Long eventId) {
+        return eventRepository.findEventByIdAndInitiatorId(eventId, userId);
+    }
+
+    @Override
+    @Transactional
+    public Event updateEvent(Event event) {
+        return eventRepository.save(event);
+    }
+
+    @Override
+    public Optional<Event> findEventById(Long eventId) {
+        return eventRepository.findById(eventId);
+    }
+
+    @Override
+    @Transactional
+    public void saveEvent(Event event) {
+        eventRepository.save(event);
+    }
+
+    @Override
+    public Page<Event> getFullEvents(List<Long> users, List<StateEvent> states, List<Long> categories,
+                                     String rangeStart, String rangeEnd, int from, int size) {
+
+        List<Category> categoryList = categoryRepository.findAllByIdIn(categories);
+        return eventRepository.findAll(EventSpecification.requestSpec(users, states, categoryList, rangeStart, rangeEnd),
+                PageRequest.of(from, size));
+    }
+
+    @Override
+    public Page<Event> getEventsPublic(String text, List<Long> categories, Boolean paid,
+                                       String rangeStart, String rangeEnd, Boolean onlyAvailable,
+                                       String sort, int from, int size) {
+
+        PageRequest page = PageRequest.of(from, size);
+
+        if (sort != null && !sort.isEmpty()) {
+            var sortD = Sort.by(SortState.EVENT_DATE.getField().equals(sort) ?
+                    SortState.EVENT_DATE.getField() : SortState.VIEWS.getField());
+            page.withSort(sortD);
+        }
+
+        List<Category> categoryList = categoryRepository.findAllByIdIn(categories);
+        return eventRepository.findAll(EventSpecification.requestSpec(text, categoryList, paid, rangeStart, rangeEnd,
+                onlyAvailable, StateEvent.PUBLISHED), page);
+    }
+}
+
