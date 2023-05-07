@@ -9,11 +9,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    Comment findCommentByIdAndWriterId(Long commentId, Long userId);
+    Optional<Comment> findCommentByIdAndWriterId(Long commentId, Long userId);
 
     @Query(value = "FROM Comment com WHERE com.state = :state ")
     Page<Comment> findAllByState(@Param("state") StateComment state, Pageable page);
+
+    List<Comment> findAllByWriterId(Long writerId);
 }

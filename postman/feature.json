@@ -6355,6 +6355,11 @@
                 "key": "Accept",
                 "value": "application/json",
                 "type": "text"
+              },
+              {
+                "key": "X-Explore-User-Id",
+                "value": "7",
+                "type": "text"
               }
             ],
             "body": {
@@ -6367,27 +6372,20 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8080/users/:userId/comments?eventId=1000",
+              "raw": "http://localhost:8080/comments/?eventId=1000",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
-                "users",
-                ":userId",
-                "comments"
+                "comments",
+                ""
               ],
               "query": [
                 {
                   "key": "eventId",
                   "value": "1000"
-                }
-              ],
-              "variable": [
-                {
-                  "key": "userId",
-                  "value": "7"
                 }
               ]
             }
@@ -6434,11 +6432,16 @@
                 "key": "Accept",
                 "value": "application/json",
                 "type": "text"
+              },
+              {
+                "key": "X-Explore-User-Id",
+                "value": "11",
+                "type": "text"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"content\":\n}",
+              "raw": "{\n    \"content\": \"\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -6446,27 +6449,19 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8080/users/:userId/comments?eventId=6",
+              "raw": "http://localhost:8080/comments?eventId=6",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
-                "users",
-                ":userId",
                 "comments"
               ],
               "query": [
                 {
                   "key": "eventId",
                   "value": "6"
-                }
-              ],
-              "variable": [
-                {
-                  "key": "userId",
-                  "value": "11"
                 }
               ]
             }
@@ -6529,6 +6524,11 @@
                 "key": "Accept",
                 "value": "application/json",
                 "type": "text"
+              },
+              {
+                "key": "X-Explore-User-Id",
+                "value": "1",
+                "type": "text"
               }
             ],
             "body": {
@@ -6541,26 +6541,18 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8080/users/:userId/comments?eventId=1",
+              "raw": "http://localhost:8080/comments?eventId=1",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
-                "users",
-                ":userId",
                 "comments"
               ],
               "query": [
                 {
                   "key": "eventId",
-                  "value": "1"
-                }
-              ],
-              "variable": [
-                {
-                  "key": "userId",
                   "value": "1"
                 }
               ]
@@ -6606,6 +6598,11 @@
                 "key": "Accept",
                 "value": "application/json",
                 "type": "text"
+              },
+              {
+                "key": "X-Explore-User-Id",
+                "value": "7",
+                "type": "text"
               }
             ],
             "body": {
@@ -6618,27 +6615,19 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8080/users/:userId/comments?eventId=2",
+              "raw": "http://localhost:8080/comments?eventId=2",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
-                "users",
-                ":userId",
                 "comments"
               ],
               "query": [
                 {
                   "key": "eventId",
                   "value": "2"
-                }
-              ],
-              "variable": [
-                {
-                  "key": "userId",
-                  "value": "7"
                 }
               ]
             }
@@ -6667,13 +6656,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8080/comments?sort=createdOn,ASC&from=0&size=15",
+              "raw": "http://localhost:8080/public/comments?sort=createdOn,ASC&from=0&size=15",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
+                "public",
                 "comments"
               ],
               "query": [
@@ -6715,13 +6705,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8080/comments/:commentId",
+              "raw": "http://localhost:8080/public/comments/:commentId",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
+                "public",
                 "comments",
                 ":commentId"
               ],
@@ -6756,13 +6747,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8080/comments/:commentId",
+              "raw": "http://localhost:8080/public/comments/:commentId",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
+                "public",
                 "comments",
                 ":commentId"
               ],
@@ -6793,121 +6785,21 @@
           ],
           "request": {
             "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8080/users/:userId/comments/:commentId?eventId=1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "users",
-                ":userId",
-                "comments",
-                ":commentId"
-              ],
-              "query": [
-                {
-                  "key": "eventId",
-                  "value": "1"
-                }
-              ],
-              "variable": [
-                {
-                  "key": "userId",
-                  "value": "10"
-                },
-                {
-                  "key": "commentId",
-                  "value": "1"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Изменение комментария текущим пользователем 1",
-          "event": [
-            {
-              "listen": "prerequest",
-              "script": {
-                "exec": [
-                  ""
-                ],
-                "type": "text/javascript"
-              }
-            },
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function() {",
-                  "    pm.response.to.have.status(200);",
-                  "    pm.response.to.be.withBody;",
-                  "    pm.response.to.be.json;",
-                  "}); ",
-                  "",
-                  "const source = pm.collectionVariables.get('response');",
-                  "const target = pm.response.json();",
-                  "console.log(source)",
-                  "console.log(target)",
-                  "pm.test(\"Комментарий должен содержать поля: id, content, writer, event, createdOn, state\", function () {",
-                  "pm.expect(target).to.have.property('id');",
-                  "pm.expect(target).to.have.property('content');",
-                  "pm.expect(target).to.have.property('writer');",
-                  "pm.expect(target).to.have.property('event');",
-                  "pm.expect(target).to.have.property('createdOn');",
-                  "pm.expect(target).to.have.property('state');",
-                  "});",
-                  "",
-                  "",
-                  "pm.test(\"Комментарий должен иметь статус PENDING при создании и после выполнения запроса\", function () {",
-                  "    pm.expect(target.state).equal(\"PENDING\");",
-                  "});",
-                  "",
-                  "",
-                  "",
-                  ""
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "PATCH",
             "header": [
               {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json",
+                "key": "X-Explore-User-Id",
+                "value": "10",
                 "type": "text"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"content\": \"Я видел и получше!\",\n    \"stateAction\": \"SEND_TO_REVIEW\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
-              "raw": "http://localhost:8080/users/:userId/comments/:commentId?eventId=1",
+              "raw": "http://localhost:8080/comments/:commentId?eventId=1",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
-                "users",
-                ":userId",
                 "comments",
                 ":commentId"
               ],
@@ -6918,10 +6810,6 @@
                 }
               ],
               "variable": [
-                {
-                  "key": "userId",
-                  "value": "1"
-                },
                 {
                   "key": "commentId",
                   "value": "1"
@@ -6987,6 +6875,11 @@
                 "key": "Accept",
                 "value": "application/json",
                 "type": "text"
+              },
+              {
+                "key": "X-Explore-User-Id",
+                "value": "6",
+                "type": "text"
               }
             ],
             "body": {
@@ -6999,27 +6892,19 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8080/users/:userId/comments?eventId=1",
+              "raw": "http://localhost:8080/comments?eventId=1",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
-                "users",
-                ":userId",
                 "comments"
               ],
               "query": [
                 {
                   "key": "eventId",
                   "value": "1"
-                }
-              ],
-              "variable": [
-                {
-                  "key": "userId",
-                  "value": "6"
                 }
               ]
             }
@@ -7074,6 +6959,11 @@
                 "key": "Accept",
                 "value": "application/json",
                 "type": "text"
+              },
+              {
+                "key": "X-Explore-User-Id",
+                "value": "6",
+                "type": "text"
               }
             ],
             "body": {
@@ -7086,15 +6976,13 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8080/users/:userId/comments/:commentId?eventId=1",
+              "raw": "http://localhost:8080/comments/:commentId?eventId=1",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
-                "users",
-                ":userId",
                 "comments",
                 ":commentId"
               ],
@@ -7105,10 +6993,6 @@
                 }
               ],
               "variable": [
-                {
-                  "key": "userId",
-                  "value": "6"
-                },
                 {
                   "key": "commentId",
                   "value": "2"
@@ -7217,13 +7101,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8080/comments?sort=createdOn,DESC&from=0&size=15",
+              "raw": "http://localhost:8080/public/comments?sort=createdOn,DESC&from=0&size=15",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
+                "public",
                 "comments"
               ],
               "query": [
@@ -7327,13 +7212,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8080/comments/:commentId",
+              "raw": "http://localhost:8080/public/comments/:commentId",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
+                "public",
                 "comments",
                 ":commentId"
               ],
@@ -7364,17 +7250,21 @@
           ],
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "X-Explore-User-Id",
+                "value": "1",
+                "type": "text"
+              }
+            ],
             "url": {
-              "raw": "http://localhost:8080/users/:userId/comments/:commentId?eventId=1",
+              "raw": "http://localhost:8080/comments/:commentId?eventId=1",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
-                "users",
-                ":userId",
                 "comments",
                 ":commentId"
               ],
@@ -7385,10 +7275,6 @@
                 }
               ],
               "variable": [
-                {
-                  "key": "userId",
-                  "value": "1"
-                },
                 {
                   "key": "commentId",
                   "value": "1"
@@ -7427,6 +7313,11 @@
                 "key": "Accept",
                 "value": "application/json",
                 "type": "text"
+              },
+              {
+                "key": "X-Explore-User-Id",
+                "value": "6",
+                "type": "text"
               }
             ],
             "body": {
@@ -7439,15 +7330,13 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8080/users/:userId/comments/:commentId?eventId=2",
+              "raw": "http://localhost:8080/comments/:commentId?eventId=2",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
-                "users",
-                ":userId",
                 "comments",
                 ":commentId"
               ],
@@ -7458,10 +7347,6 @@
                 }
               ],
               "variable": [
-                {
-                  "key": "userId",
-                  "value": "6"
-                },
                 {
                   "key": "commentId",
                   "value": "2"
@@ -7488,17 +7373,21 @@
           ],
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "X-Explore-User-Id",
+                "value": "6",
+                "type": "text"
+              }
+            ],
             "url": {
-              "raw": "http://localhost:8080/users/:userId/comments/:commentId?eventId=1",
+              "raw": "http://localhost:8080/comments/:commentId?eventId=1",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
-                "users",
-                ":userId",
                 "comments",
                 ":commentId"
               ],
@@ -7509,10 +7398,6 @@
                 }
               ],
               "variable": [
-                {
-                  "key": "userId",
-                  "value": "6"
-                },
                 {
                   "key": "commentId",
                   "value": "2"
@@ -7578,6 +7463,11 @@
                 "key": "Accept",
                 "value": "application/json",
                 "type": "text"
+              },
+              {
+                "key": "X-Explore-User-Id",
+                "value": "15",
+                "type": "text"
               }
             ],
             "body": {
@@ -7590,27 +7480,19 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8080/users/:userId/comments?eventId=9",
+              "raw": "http://localhost:8080/comments?eventId=9",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
-                "users",
-                ":userId",
                 "comments"
               ],
               "query": [
                 {
                   "key": "eventId",
                   "value": "9"
-                }
-              ],
-              "variable": [
-                {
-                  "key": "userId",
-                  "value": "15"
                 }
               ]
             }
@@ -7741,6 +7623,11 @@
                 "key": "Accept",
                 "value": "application/json",
                 "type": "text"
+              },
+              {
+                "key": "X-Explore-User-Id",
+                "value": "19",
+                "type": "text"
               }
             ],
             "body": {
@@ -7753,27 +7640,19 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8080/users/:userId/comments?eventId=11",
+              "raw": "http://localhost:8080/comments?eventId=11",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
-                "users",
-                ":userId",
                 "comments"
               ],
               "query": [
                 {
                   "key": "eventId",
                   "value": "11"
-                }
-              ],
-              "variable": [
-                {
-                  "key": "userId",
-                  "value": "19"
                 }
               ]
             }
@@ -7870,13 +7749,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8080/comments",
+              "raw": "http://localhost:8080/public/comments",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "port": "8080",
               "path": [
+                "public",
                 "comments"
               ],
               "query": [
@@ -7893,6 +7773,100 @@
                 {
                   "key": "size",
                   "value": "11",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Получение комментария по id пользователя",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+                  "    pm.response.to.be.ok;    \r",
+                  "    pm.response.to.be.withBody;\r",
+                  "    pm.response.to.be.json;\r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Explore-User-Id",
+                "value": "6",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/comments/:commentId",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "comments",
+                ":commentId"
+              ],
+              "variable": [
+                {
+                  "key": "commentId",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Получение списка комментариев по id пользователя",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+                  "    pm.response.to.be.ok;    \r",
+                  "    pm.response.to.be.withBody;\r",
+                  "    pm.response.to.be.json;\r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Explore-User-Id",
+                "value": "6",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/comments",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "comments"
+              ],
+              "query": [
+                {
+                  "key": "",
+                  "value": "",
                   "disabled": true
                 }
               ]

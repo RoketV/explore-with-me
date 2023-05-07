@@ -21,8 +21,7 @@ public interface CommentService {
 
     CommentDto updateCommentByAdmin(UpdateAdminCommentDto updateAdminComment, Long commentId);
 
-    CommentDto findUserCommentById(Long userId, Long eventId);
+    CommentDto findUserCommentById(Long userId, Long commentId);
 
-    CommentDto findCommentById(Long id);
-
+    List<CommentDto> getUserComments(Long userId);
 }

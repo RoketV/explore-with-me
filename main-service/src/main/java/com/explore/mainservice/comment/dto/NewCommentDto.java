@@ -2,7 +2,7 @@ package com.explore.mainservice.comment.dto;
 
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class NewCommentDto {
 
-    @NotNull
+    @NotBlank
     private String content;
 }
 

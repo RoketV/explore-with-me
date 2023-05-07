@@ -1,9 +1,5 @@
 package com.explore.mainservice.user.controller;
 
-import com.explore.mainservice.comment.dto.CommentDto;
-import com.explore.mainservice.comment.dto.NewCommentDto;
-import com.explore.mainservice.comment.dto.UpdateUserCommentDto;
-import com.explore.mainservice.comment.service.CommentService;
 import com.explore.mainservice.event.dto.EventFullDto;
 import com.explore.mainservice.event.dto.EventShortDto;
 import com.explore.mainservice.event.dto.NewEventDto;
@@ -32,7 +28,6 @@ public class UserController {
 
     private final EventService eventService;
     private final ParticipationService participationService;
-    private final CommentService commentService;
 
     @GetMapping("/{userId}/events")
     public List<EventShortDto> getUserEvents(@PathVariable("userId") Long userId,
@@ -108,31 +103,4 @@ public class UserController {
         return participationService.cancelRequest(userId, requestId);
     }
 
-    @PostMapping("/{userId}/comments")
-    @ResponseStatus(HttpStatus.CREATED)
-    public CommentDto addComment(@PathVariable("userId") Long userId,
-                                 @RequestParam Long eventId,
-                                 @RequestBody NewCommentDto newCommentDto) {
-        log.info("Добавление комментария от текущего пользователя с id " + userId + " к событию с id " + eventId);
-        return commentService.addComment(userId, eventId, newCommentDto);
-    }
-
-    @PatchMapping("/{userId}/comments/{commentId}")
-    @ResponseStatus(HttpStatus.OK)
-    public CommentDto updateComment(@PathVariable("userId") Long userId,
-                                    @PathVariable("commentId") Long commentId,
-                                    @RequestBody UpdateUserCommentDto userCommentDto) {
-        log.info("Изменение не опубликованного комментария текущего пользователя с id " + userId);
-        return commentService.updateComment(userId, commentId, userCommentDto);
-    }
-
-    @DeleteMapping("/{userId}/comments/{commentId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteComment(@PathVariable("userId") Long userId,
-                              @RequestParam Long eventId,
-                              @PathVariable("commentId") Long commentId) {
-        log.info("Удаление не опубликованного комментария от текущего пользователя с id " + userId +
-                " к событию с id " + eventId);
-        commentService.deleteComment(userId, eventId, commentId);
-    }
 }
