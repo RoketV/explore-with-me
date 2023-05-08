@@ -3,9 +3,6 @@ package com.explore.mainservice.admin.controller;
 import com.explore.mainservice.category.dto.CategoryDto;
 import com.explore.mainservice.category.dto.NewCategoryDto;
 import com.explore.mainservice.category.service.CategoryService;
-import com.explore.mainservice.comment.dto.CommentDto;
-import com.explore.mainservice.comment.dto.UpdateAdminCommentDto;
-import com.explore.mainservice.comment.service.CommentService;
 import com.explore.mainservice.compilations.dto.CompilationDto;
 import com.explore.mainservice.compilations.dto.NewCompilationDto;
 import com.explore.mainservice.compilations.dto.UpdateCompilationRequestDto;
@@ -38,7 +35,6 @@ public class AdminController {
     private final CategoryService categoryService;
     private final EventService eventService;
     private final CompilationService compilationService;
-    private final CommentService commentService;
 
     @GetMapping(value = "/users")
     public List<UserDto> getUsers(@RequestParam List<Long> ids,
@@ -129,13 +125,5 @@ public class AdminController {
         log.info("Обновление подборки событий с id: " + compId);
 
         return compilationService.updateCompilation(compId, updateCompilationDto);
-    }
-
-    @PatchMapping(value = "/comments/{commentId}")
-    public CommentDto updateCommentByAdmin(@RequestBody UpdateAdminCommentDto updateAdminComment,
-                                           @PathVariable("commentId") Long commentId) {
-        log.info("Модерация комментария и его статуса.");
-
-        return commentService.updateCommentByAdmin(updateAdminComment, commentId);
     }
 }

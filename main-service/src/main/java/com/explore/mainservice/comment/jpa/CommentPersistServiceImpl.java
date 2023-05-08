@@ -3,6 +3,7 @@ package com.explore.mainservice.comment.jpa;
 import com.explore.mainservice.comment.enums.StateComment;
 import com.explore.mainservice.comment.model.Comment;
 import com.explore.mainservice.comment.repository.CommentRepository;
+import com.explore.mainservice.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,7 +28,10 @@ public class CommentPersistServiceImpl implements CommentPersistService {
 
     @Override
     public Comment findUserCommentById(Long userId, Long commentId) {
-        return commentRepository.findCommentByIdAndWriterId(commentId, userId);
+        return commentRepository.findCommentByIdAndWriterId(commentId, userId)
+                .orElseThrow(
+                        () -> new NotFoundException("The required object was not found.",
+                                String.format("Comment with id = %s was not found", commentId)));
     }
 
     @Override
@@ -43,7 +48,7 @@ public class CommentPersistServiceImpl implements CommentPersistService {
         } else {
             sortS = Sort.by(Sort.Direction.ASC, sort[0]);
         }
-        var page = PageRequest.of(from, size, sortS);
+        PageRequest page = PageRequest.of(from, size, sortS);
         return commentRepository.findAllByState(StateComment.PUBLISHED, page);
 
     }
@@ -51,6 +56,10 @@ public class CommentPersistServiceImpl implements CommentPersistService {
     @Override
     public Optional<Comment> findCommentById(Long id) {
         return commentRepository.findById(id);
+    }
+
+    public List<Comment> findAllUserComments(Long writerId) {
+        return commentRepository.findAllByWriterId(writerId);
     }
 
     @Override

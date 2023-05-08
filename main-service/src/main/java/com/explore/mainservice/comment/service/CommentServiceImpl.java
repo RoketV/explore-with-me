@@ -208,34 +208,16 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDto findUserCommentById(Long userId, Long commentId) {
+        Comment comment = commentPersistService.findUserCommentById(userId, commentId);
+        EventShortDto eventShort = eventService.findEventShortById(comment.getEventId());
+        UserShortDto userShort = userService.getUserShortById(comment.getWriterId());
 
-        CommentDto comment = commentMapper.toCommentDto(
-                commentPersistService.findUserCommentById(userId, commentId));
-        if (comment == null) {
-            throw new NotFoundException("The required object was not found.",
-                    String.format("Comment with id = %s was not found", commentId));
-        }
-
-        return comment;
+        return commentMapper.toCommentDto(comment, userShort, eventShort);
     }
 
-    @Override
-    public CommentDto findCommentById(Long id) {
-
-        Optional<Comment> commentOpt = commentPersistService.findCommentById(id);
-
-        if (commentOpt.isPresent()) {
-
-            Comment comment = commentOpt.get();
-            EventShortDto eventShort = eventService.findEventShortById(comment.getEventId());
-            UserShortDto userShort = userService.getUserShortById(comment.getWriterId());
-
-            return commentMapper.toCommentDto(comment, userShort, eventShort);
-        }
-
-        throw new NotFoundException("The required object was not found.",
-                String.format("Event with id = %s was not found ", id));
-
+    public List<CommentDto> getUserComments(Long userId) {
+        return commentPersistService.findAllUserComments(userId).stream()
+                .map(commentMapper::toCommentDto).collect(Collectors.toList());
     }
 
     private StateComment getStateComment(StateAction stateAction) {

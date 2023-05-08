@@ -4,6 +4,7 @@ import com.explore.mainservice.comment.model.Comment;
 import org.springframework.data.domain.Page;
 
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CommentPersistService {
@@ -19,5 +20,7 @@ public interface CommentPersistService {
     Comment updateComment(Comment comment);
 
     Comment findUserCommentById(Long userId, Long commentId);
+
+    List<Comment> findAllUserComments(Long userId);
 
 }

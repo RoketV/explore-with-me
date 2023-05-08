@@ -15,12 +15,12 @@ import java.util.List;
 @RequiredArgsConstructor
 @Validated
 @RestController
-@RequestMapping(path = "/")
-public class CommentController {
+@RequestMapping(path = "/public/comments")
+public class CommentPublicController {
 
     private final CommentService commentService;
 
-    @GetMapping("comments")
+    @GetMapping
     public List<CommentDto> getCommentsPublic(@RequestParam(defaultValue = "id,desc") String[] sort,
                                               @RequestParam(value = "from", defaultValue = "0") @PositiveOrZero int from,
                                               @RequestParam(value = "size", defaultValue = "10") @Positive int size) {
@@ -30,7 +30,7 @@ public class CommentController {
 
     }
 
-    @GetMapping("comments/{commentId}")
+    @GetMapping("/{commentId}")
     public CommentDto getCommentPublicById(@PathVariable(name = "commentId") Long id) {
 
         log.info("Получение комментария с id = " + id);
